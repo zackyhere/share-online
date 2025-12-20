@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View File | TempShare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50">
+
+    <nav class="w-full py-4 px-6 flex justify-between items-center bg-white/50 backdrop-blur-sm sticky top-0 z-40 border-b border-slate-200">
+        <a href="index.html" class="text-xl font-bold tracking-tight text-indigo-600">TempShare<span class="text-slate-400">.io</span></a>
+    </nav>
+
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="w-full max-w-4xl" id="resultContainer">
+            <div class="mb-6 flex justify-between items-end">
+                <div>
+                    <h1 id="fileTitle" class="text-2xl font-bold text-slate-800 flex items-center gap-2">Loading...</h1>
+                    <p class="text-slate-500 text-sm mt-1">ID: <span id="fileIdDisplay" class="font-mono bg-slate-200 px-2 py-0.5 rounded text-slate-700">...</span> • Expires in 24h</p>
+                </div>
+                <a href="index.html" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">Create New</a>
+            </div>
+
+            <div id="viewText" class="hidden bg-slate-900 rounded-xl overflow-hidden shadow-2xl ring-1 ring-slate-900/5">
+                <div class="flex justify-between items-center px-4 py-3 bg-slate-800/50 border-b border-white/5">
+                    <span class="text-xs text-slate-400 font-mono">raw_content.txt</span>
+                    <button onclick="copyText()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs transition-colors">
+                        <span id="copyLabel">Copy Text</span>
+                    </button>
+                </div>
+                <div class="p-6 overflow-x-auto">
+                    <pre id="codeContent" class="text-sm font-mono text-slate-300 leading-relaxed"></pre>
+                </div>
+            </div>
+
+            <div id="viewFile" class="hidden glass-panel p-8 rounded-2xl flex flex-col items-center justify-center text-center min-h-[400px]">
+                
+                <div id="fileIcon" class="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mb-6 text-indigo-600">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+
+                <h2 id="fileName" class="text-xl font-bold text-slate-800 mb-2">filename.zip</h2>
+                <p class="text-slate-500 mb-8">10 MB</p>
+
+                <button class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-lg shadow-indigo-500/20 font-medium transition-transform active:scale-95 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                    Download
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Ambil ID dari URL (?id=...)
+        const urlParams = new URLSearchParams(window.location.search);
+        const fileId = urlParams.get('id') || 'DEMO-123';
+        
+        document.getElementById('fileIdDisplay').textContent = fileId;
+
+        // --- SIMULASI DATA BACKEND ---
+        // Dalam implementasi nyata, ganti ini dengan fetch('/api/file/' + fileId)
+        // Kita buat logika sederhana: Jika ID mengandung 'txt', tampilkan teks. Jika tidak, tampilkan file.
+        
+        const mockData = {
+            id: fileId,
+            // Jika ID mengandung "txt" kita anggap text, selain itu file biasa
+            type: fileId.includes('txt') ? 'txt' : 'file', 
+            content: `// Content for ID: ${fileId}
+console.log("Hello World");
+// This is fetched via Vanilla JS`,
+            filename: `archive_${fileId}.zip`
+        };
+
+        // Render UI
+        if (mockData.type === 'txt') {
+            document.getElementById('fileTitle').textContent = '📝 Text File';
+            document.getElementById('viewText').classList.remove('hidden');
+            document.getElementById('codeContent').textContent = mockData.content;
+        } else {
+            document.getElementById('fileTitle').textContent = '📁 Archive / File';
+            document.getElementById('viewFile').classList.remove('hidden');
+            document.getElementById('viewFile').classList.add('flex'); // Glass panel needs flex
+            document.getElementById('fileName').textContent = mockData.filename;
+        }
+
+        // Copy Function
+        function copyText() {
+            const text = document.getElementById('codeContent').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const label = document.getElementById('copyLabel');
+                const originalText = label.textContent;
+                label.textContent = "Copied!";
+                label.classList.add('text-green-400', 'font-bold');
+                
+                setTimeout(() => {
+                    label.textContent = originalText;
+                    label.classList.remove('text-green-400', 'font-bold');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
