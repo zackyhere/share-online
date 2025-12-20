@@ -1,0 +1,126 @@
+---
+// src/pages/[id].astro
+import Layout from '../layouts/Layout.astro';
+// Note: Di real app, gunakan 'fs' atau database untuk cek tipe file berdasarkan ID.
+// Disini kita mensimulasikan logic UI-nya.
+const { id } = Astro.params;
+
+// MOCK DATA SIMULATION (Logika Backend Nanti Disini)
+// Ubah variabel ini untuk melihat perubahan tampilan (txt, img, atau file)
+const fileType = 'txt'; // options: 'txt', 'img', 'file'
+const fileName = `document-rahasia-${id}`;
+const fileExt = fileType === 'txt' ? '.txt' : (fileType === 'img' ? '.png' : '.zip');
+
+// Mock content jika txt
+const textContent = `Halo! Ini adalah contoh isi file teks yang ditemukan dengan ID: ${id}.
+Anda bisa menyalin teks ini langsung dengan tombol di pojok kanan atas.
+
+function helloWorld() {
+    console.log("Hello TempShare!");
+}`;
+---
+
+<Layout title={`File ${id} | TempShare`}>
+    <div class="w-full max-w-4xl z-10">
+         <div class="flex items-center justify-between mb-8">
+            <a href="/" class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                </svg>
+                Kembali
+            </a>
+            <div class="px-3 py-1 bg-slate-800 rounded-full border border-slate-700 text-xs text-slate-400 font-mono">
+                ID: {id}
+            </div>
+        </div>
+
+        {fileType === 'txt' && (
+            <div class="bg-surface border border-slate-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+                <div class="flex items-center justify-between px-6 py-4 bg-slate-900/50 border-b border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-indigo-500/20 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-white font-medium text-sm">{fileName}{fileExt}</h2>
+                            <p class="text-slate-500 text-xs">Plain Text • 1.2 KB</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <button id="btn-copy" class="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm rounded-lg transition-colors border border-slate-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                            <span id="copy-text">Salin</span>
+                        </button>
+                        <a href={`/txt/${id}.txt`} download class="p-2 bg-primary hover:bg-indigo-600 text-white rounded-lg transition-colors shadow-lg shadow-primary/20">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="relative group">
+                    <pre class="w-full h-[60vh] overflow-auto p-6 bg-[#0d1117] text-slate-300 font-mono text-sm leading-relaxed" id="text-content">{textContent}</pre>
+                </div>
+            </div>
+        )}
+
+        {fileType !== 'txt' && (
+            <div class="flex flex-col items-center justify-center">
+                <div class="bg-surface border border-slate-700 rounded-2xl p-8 max-w-lg w-full text-center shadow-2xl">
+                    
+                    {fileType === 'img' ? (
+                        <div class="mb-6 rounded-xl overflow-hidden border border-slate-700 bg-black/50">
+                            <img src={`/img/${id}.png`} alt="Preview" class="max-w-full h-auto mx-auto" onError="this.onerror=null;this.src='https://via.placeholder.com/400x300?text=Image+Preview';" />
+                        </div>
+                    ) : (
+                        <div class="w-24 h-24 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                    )}
+
+                    <h2 class="text-2xl font-bold text-white mb-2">{fileName}{fileExt}</h2>
+                    <p class="text-slate-400 mb-8">Siap untuk diunduh. Link akan kadaluarsa segera.</p>
+
+                    <a href={`/file/${id}${fileExt}`} download class="block w-full py-4 bg-primary hover:bg-indigo-600 text-white font-bold rounded-xl shadow-lg shadow-primary/25 transition-all transform hover:scale-[1.02]">
+                        Download File
+                    </a>
+                </div>
+            </div>
+        )}
+    </div>
+
+    <script>
+        const btnCopy = document.getElementById('btn-copy');
+        const textContent = document.getElementById('text-content');
+        const copyLabel = document.getElementById('copy-text');
+
+        if(btnCopy && textContent) {
+            btnCopy.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(textContent.innerText);
+                    copyLabel.innerText = "Tersalin!";
+                    btnCopy.classList.replace('bg-slate-800', 'bg-green-600');
+                    btnCopy.classList.replace('text-slate-300', 'text-white');
+                    btnCopy.classList.replace('border-slate-700', 'border-green-500');
+                    
+                    setTimeout(() => {
+                        copyLabel.innerText = "Salin";
+                        btnCopy.classList.replace('bg-green-600', 'bg-slate-800');
+                        btnCopy.classList.replace('text-white', 'text-slate-300');
+                        btnCopy.classList.replace('border-green-500', 'border-slate-700');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Gagal menyalin', err);
+                }
+            });
+        }
+    </script>
+</Layout>

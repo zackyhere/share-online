@@ -1,0 +1,126 @@
+---
+// src/pages/index.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="TempShare | Kirim & Temukan File">
+	<div class="text-center mb-12 z-10">
+		<h1 class="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400 mb-4">
+			TempShare
+		</h1>
+		<p class="text-slate-400 text-lg max-w-lg mx-auto">
+			Bagikan teks dan file secara instan tanpa login. Data Anda aman dan akan dihapus secara otomatis.
+		</p>
+	</div>
+
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl z-10">
+		<a href="/send" class="group relative p-8 bg-surface/50 border border-slate-700/50 rounded-2xl hover:bg-surface/80 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 flex flex-col items-center justify-center gap-4">
+			<div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+				</svg>
+			</div>
+			<span class="text-xl font-semibold text-white">Kirim File / Teks</span>
+		</a>
+
+		<button id="btn-find" class="group relative p-8 bg-surface/50 border border-slate-700/50 rounded-2xl hover:bg-surface/80 transition-all hover:border-cyan-500/50 hover:shadow-lg hover:shadow-cyan-500/10 flex flex-col items-center justify-center gap-4">
+			<div class="w-16 h-16 bg-cyan-500/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+				</svg>
+			</div>
+			<span class="text-xl font-semibold text-white">Cari Kode Unik</span>
+		</button>
+	</div>
+
+	<div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl text-center text-slate-400 text-sm z-10">
+		<div class="p-4 rounded-xl bg-slate-800/30 backdrop-blur-sm border border-slate-700/30">
+			<strong class="block text-slate-200 mb-1">🔒 Enkripsi End-to-End</strong>
+			File Anda dilindungi saat transit.
+		</div>
+		<div class="p-4 rounded-xl bg-slate-800/30 backdrop-blur-sm border border-slate-700/30">
+			<strong class="block text-slate-200 mb-1">⏳ Hapus Otomatis</strong>
+			File hilang permanen setelah 24 jam.
+		</div>
+		<div class="p-4 rounded-xl bg-slate-800/30 backdrop-blur-sm border border-slate-700/30">
+			<strong class="block text-slate-200 mb-1">🕵️ Anonim</strong>
+			Tidak perlu registrasi atau email.
+		</div>
+	</div>
+
+	<div id="modal-find" class="fixed inset-0 z-50 hidden">
+		<div class="absolute inset-0 bg-black/60 backdrop-blur-md transition-opacity" id="modal-backdrop"></div>
+		
+		<div class="absolute inset-0 flex items-center justify-center p-4">
+			<div class="bg-surface border border-slate-600 rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-all scale-95 opacity-0" id="modal-panel">
+				<div class="flex justify-between items-center mb-6">
+					<h3 class="text-xl font-bold text-white">Masukkan Kode Unik</h3>
+					<button id="btn-close" class="text-slate-400 hover:text-white">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+						</svg>
+					</button>
+				</div>
+				
+				<div class="relative">
+					<input type="text" id="input-code" placeholder="Contoh: a7Xy9P" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl py-3 px-4 pl-12 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all uppercase tracking-widest font-mono text-lg" />
+					<div class="absolute left-4 top-3.5 text-slate-500">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+						</svg>
+					</div>
+				</div>
+				<p class="text-xs text-slate-500 mt-2 ml-1">Tekan Enter untuk mencari</p>
+
+				<button id="btn-submit-find" class="w-full mt-6 bg-primary hover:bg-indigo-600 text-white font-semibold py-3 rounded-xl transition-colors shadow-lg shadow-primary/25">
+					Cari File
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Modal Logic
+		const modal = document.getElementById('modal-find');
+		const panel = document.getElementById('modal-panel');
+		const btnFind = document.getElementById('btn-find');
+		const btnClose = document.getElementById('btn-close');
+		const btnBackdrop = document.getElementById('modal-backdrop');
+		const inputCode = document.getElementById('input-code') as HTMLInputElement;
+		const btnSubmit = document.getElementById('btn-submit-find');
+
+		function openModal() {
+			modal.classList.remove('hidden');
+			// Animation handling
+			setTimeout(() => {
+				panel.classList.remove('scale-95', 'opacity-0');
+				panel.classList.add('scale-100', 'opacity-100');
+			}, 10);
+			inputCode.focus();
+		}
+
+		function closeModal() {
+			panel.classList.remove('scale-100', 'opacity-100');
+			panel.classList.add('scale-95', 'opacity-0');
+			setTimeout(() => {
+				modal.classList.add('hidden');
+			}, 200);
+		}
+
+		function goToFiles() {
+			const code = inputCode.value.trim();
+			if(code) {
+				window.location.href = `/${code}`;
+			}
+		}
+
+		btnFind.addEventListener('click', openModal);
+		btnClose.addEventListener('click', closeModal);
+		btnBackdrop.addEventListener('click', closeModal);
+		
+		btnSubmit.addEventListener('click', goToFiles);
+		inputCode.addEventListener('keyup', (e) => {
+			if (e.key === 'Enter') goToFiles();
+		});
+	</script>
+</Layout>
