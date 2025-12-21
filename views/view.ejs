@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | PopIt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <nav class="w-full py-4 px-6 flex justify-between items-center bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 shadow-sm transition-all">
+        <a href="/" class="text-xl font-bold tracking-tight text-indigo-600">popit<span class="text-slate-400">.my.id</span></a>
+        <a href="/send" class="text-sm font-medium text-indigo-600 hover:text-indigo-800">+ New</a>
+    </nav>
+
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="w-full max-w-4xl">
+            
+            <div class="mb-6">
+                <div class="flex items-center gap-3 mb-1">
+                    <span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 text-xs font-bold uppercase"><%= file.type %></span>
+                    <h1 class="text-xl md:text-2xl font-bold text-slate-800 truncate"><%= file.filename %></h1>
+                </div>
+                <p class="text-xs text-slate-400">ID: <%= id %> • Auto-delete active</p>
+            </div>
+
+            <% if (file.type === 'txt') { %>
+                <div class="bg-slate-900 rounded-xl overflow-hidden shadow-2xl">
+                    <div class="flex justify-between items-center px-4 py-2 bg-white/5 border-b border-white/5">
+                        <span class="text-xs text-slate-500">Plain Text</span>
+                        <button onclick="navigator.clipboard.writeText(document.getElementById('content').innerText); alert('Copied!')" class="text-xs text-slate-400 hover:text-white">Copy</button>
+                    </div>
+                    <pre id="content" class="p-6 font-mono text-sm text-slate-300 overflow-x-auto whitespace-pre-wrap"><%= file.content %></pre>
+                </div>
+
+            <% } else if (file.type === 'img') { %>
+                <div class="glass-panel p-4 rounded-2xl text-center">
+                    <img src="<%= imageBase64 %>" class="max-h-[60vh] mx-auto rounded-lg shadow-sm border border-slate-200" alt="Uploaded Image">
+                    <div class="mt-6">
+                        <a href="/download/<%= id %>" class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors">
+                            Download Image
+                        </a>
+                    </div>
+                </div>
+
+            <% } else { %>
+                <div class="glass-panel p-10 rounded-2xl text-center">
+                    <div class="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <h2 class="text-lg font-bold text-slate-800 mb-1"><%= file.filename %></h2>
+                    <p class="text-slate-500 text-sm mb-6"><%= file.size %></p>
+                    <a href="/download/<%= id %>" class="inline-flex items-center gap-2 px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors">
+                        Download File
+                    </a>
+                </div>
+            <% } %>
+
+        </div>
+    </main>
+</body>
+</html>

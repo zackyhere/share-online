@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | PopIt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <nav class="w-full py-4 px-6 flex justify-between items-center glass-nav sticky top-0 z-40">
+        <a href="/" class="text-xl font-bold tracking-tight text-indigo-600">popit<span class="text-slate-400">.my.id</span></a>
+        <div class="hidden md:block text-xs font-medium px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full">Serverless In-Memory</div>
+    </nav>
+
+    <main class="flex-grow flex flex-col items-center justify-start p-6 pt-16 relative">
+        
+        <div class="text-center max-w-3xl w-full space-y-6 z-10 mb-20">
+            <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-tight uppercase">
+                file and text <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">sharing</span>
+            </h1>
+            <p class="text-lg text-slate-500 max-w-lg mx-auto">Upload, share, and forget. Data is stored in volatile memory and vanishes automatically.</p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+                <a href="/send" class="px-8 py-4 bg-slate-900 hover:bg-black text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    Start Sharing
+                </a>
+                <button onclick="openModal()" class="px-8 py-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-semibold rounded-xl shadow-sm transition-all flex items-center justify-center gap-2">
+                    Find by ID
+                </button>
+            </div>
+        </div>
+
+        <div class="w-full max-w-5xl">
+          <div class="glass-panel rounded-3xl p-8 md:p-12 mb-6">
+    <a href="https://github.com/zackyhere/share-online" target="_blank" class="flex items-center gap-5 group">
+        
+        <div class="w-14 h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition">
+            <!-- GitHub SVG -->
+            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483
+                    0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608
+                    1.003.071 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338
+                    -2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.27.098-2.646
+                    0 0 .84-.269 2.75 1.026A9.564 9.564 0 0112 6.844a9.56 9.56 0 012.504.337
+                    c1.909-1.295 2.747-1.026 2.747-1.026.546 1.376.202 2.393.1 2.646
+                    .64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943
+                    .359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743
+                    0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.523 2 12 2z"/>
+            </svg>
+        </div>
+
+        <div>
+            <h3 class="font-bold text-slate-800 text-xl group-hover:underline">
+                Source Code
+            </h3>
+            <p class="text-sm text-slate-600 mt-1">
+                Lihat dan pelajari source code proyek ini di GitHub.
+            </p>
+        </div>
+
+    </a>
+</div>
+
+            <div class="glass-panel rounded-3xl p-8 md:p-12">
+                <div class="text-center mb-10">
+                    <h2 class="text-2xl font-bold text-slate-800">Security & Privacy Architecture</h2>
+                    <p class="text-slate-500 mt-2">Bagaimana kami menangani data Anda dengan aman.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <div class="flex gap-4 items-start">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-lg">Volatile RAM Storage</h3>
+                            <p class="text-sm text-slate-600 mt-1 leading-relaxed">
+                                Kami tidak menggunakan Hard Drive atau Database. File Anda disimpan di <strong>RAM (Memory)</strong>. Saat server restart atau waktu habis, data musnah secara permanen dan tidak bisa dipulihkan (Recovery Impossible).
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 items-start">
+                        <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-lg">Public Link Access</h3>
+                            <p class="text-sm text-slate-600 mt-1 leading-relaxed">
+                                <strong>Peringatan:</strong> Link bersifat publik. Siapapun yang mengetahui ID file Anda bisa mengaksesnya. 
+                                <br><span class="text-amber-700 font-medium mt-1 block text-xs bg-amber-100/50 p-2 rounded">Saran: Gunakan Custom ID yang unik & rumit (kombinasi angka/huruf) untuk file sensitif agar tidak mudah ditebak.</span>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="findModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md transform scale-95 transition-transform duration-300" id="modalContent">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold">Find ZioShare File</h2>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600">✕</button>
+            </div>
+            <form onsubmit="handleFind(event)">
+                <input type="text" id="codeInput" placeholder="ENTER FILE ID" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-4 text-center text-lg font-mono tracking-widest uppercase focus:ring-2 focus:ring-indigo-500 outline-none mb-4">
+                <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition-colors">Open</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('findModal');
+        const content = document.getElementById('modalContent');
+        const input = document.getElementById('codeInput');
+
+        function openModal() {
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+            setTimeout(() => input.focus(), 100);
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.add('scale-95');
+            content.classList.remove('scale-100');
+        }
+
+        function handleFind(e) {
+            e.preventDefault();
+            const code = input.value.trim();
+            if(code) window.location.href = '/' + code;
+        }
+
+        document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeModal() });
+    </script>
+</body>
+</html>
