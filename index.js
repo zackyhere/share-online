@@ -9,7 +9,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Storage di RAM
 const storage = multer.memoryStorage();
 const upload = multer({ 
     storage: storage,
