@@ -15,7 +15,7 @@ const upload = multer({
     limits: { fileSize: 10 * 1024 * 1024 } // 10MB
 });
 
-const fileDB = {}; // Database Sementara (RAM)
+const fileDB = {}; 
 
 // Reserved IDs (Dilarang dipakai user)
 const RESERVED_IDS = ['send', 'api', 'download', 'style.css', 'favicon.ico', 'about', 'legal'];
