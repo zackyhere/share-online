@@ -17,7 +17,6 @@ const upload = multer({
 
 const fileDB = {}; 
 
-// Reserved IDs (Dilarang dipakai user)
 const RESERVED_IDS = ['send', 'api', 'download', 'style.css', 'favicon.ico', 'about', 'legal'];
 
 // Helper: Hitung waktu kadaluarsa
