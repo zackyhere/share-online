@@ -28,7 +28,6 @@ const getExpiryMs = (duration) => {
     return times[duration] || 60 * 60 * 1000;
 };
 
-// Helper: Generate Random ID (Recursive logic)
 const generateUniqueId = (length = 3, attempt = 0) => {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let result = '';
@@ -51,8 +50,6 @@ const generateUniqueId = (length = 3, attempt = 0) => {
 
     return result;
 };
-
-// --- ROUTES ---
 
 app.get('/', (req, res) => res.render('dashboard', { title: 'dashboard' }));
 app.get('/send', (req, res) => res.render('send', { title: 'Send File' }));
