@@ -19,7 +19,6 @@ const fileDB = {};
 
 const RESERVED_IDS = ['send', 'api', 'download', 'style.css', 'favicon.ico', 'about', 'legal'];
 
-// Helper: Hitung waktu kadaluarsa
 const getExpiryMs = (duration) => {
     const times = {
         '1m': 60 * 1000, '5m': 5 * 60 * 1000, '10m': 10 * 60 * 1000,
