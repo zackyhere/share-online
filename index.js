@@ -39,8 +39,6 @@ const generateUniqueId = (length = 3, attempt = 0) => {
 
     // Cek apakah ID sudah ada di DB atau di Reserved List
     if (fileDB[result] || RESERVED_IDS.includes(result)) {
-        // Jika sudah ada:
-        // Jika sudah mencoba 10x di panjang yang sama dan gagal, tambah panjang digit
         if (attempt > 10) {
             return generateUniqueId(length + 1, 0); 
         }
