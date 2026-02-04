@@ -114,7 +114,6 @@ app.get('/download/:id', (req, res) => {
     res.send(file.buffer);
 });
 
-// View Route
 app.get('/:id', (req, res) => {
     const { id } = req.params;
     const file = fileDB[id];
