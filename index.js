@@ -39,7 +39,7 @@ const generateUniqueId = (length = 3, attempt = 0) => {
         if (attempt > 10) {
             return generateUniqueId(length + 1, 0); 
         }
-        // Coba lagi dengan panjang yang sama
+
         return generateUniqueId(length, attempt + 1);
     }
 
