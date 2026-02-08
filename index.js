@@ -64,7 +64,7 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
             if (sanitizedId.length < 1) {
                 return res.status(400).json({ error: 'Custom ID minimal 1 karakter.' });
             }
-            // 3. Cek ketersediaan
+            
             if (RESERVED_IDS.includes(sanitizedId) || fileDB[sanitizedId]) {
                 return res.status(400).json({ error: 'ID tersebut sudah terpakai.' });
             }
