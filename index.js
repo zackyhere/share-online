@@ -59,8 +59,7 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
         if (customId && customId.trim() !== "") {
             // 1. Sanitasi (Hanya alfanumerik & strip)
             const sanitizedId = customId.trim().replace(/[^a-zA-Z0-9-_]/g, '');
-            
-            // 2. Validasi Custom ID (Minimal 1 karakter)
+
             if (sanitizedId.length < 1) {
                 return res.status(400).json({ error: 'Custom ID minimal 1 karakter.' });
             }
