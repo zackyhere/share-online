@@ -55,7 +55,6 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
         let { type, textContent, duration, customId } = req.body;
         let id;
 
-        // LOGIKA ID
         if (customId && customId.trim() !== "") {
             // 1. Sanitasi (Hanya alfanumerik & strip)
             const sanitizedId = customId.trim().replace(/[^a-zA-Z0-9-_]/g, '');
