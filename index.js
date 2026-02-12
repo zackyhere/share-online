@@ -49,7 +49,6 @@ const generateUniqueId = (length = 3, attempt = 0) => {
 app.get('/', (req, res) => res.render('dashboard', { title: 'dashboard' }));
 app.get('/send', (req, res) => res.render('send', { title: 'Send File' }));
 
-// API UPLOAD
 app.post('/api/upload', upload.single('file'), (req, res) => {
     try {
         let { type, textContent, duration, customId } = req.body;
