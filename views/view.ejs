@@ -29,7 +29,7 @@
                 <div class="bg-slate-900 rounded-xl overflow-hidden shadow-2xl">
                     <div class="flex justify-between items-center px-4 py-2 bg-white/5 border-b border-white/5">
                         <span class="text-xs text-slate-500">Plain Text</span>
-                        <button onclick="navigator.clipboard.writeText(document.getElementById('content').innerText); alert('Copied!')" class="text-xs text-slate-400 hover:text-white">Copy</button>
+                        <button onclick="navigator.clipboard.writeText(document.getElementById('content').innerText); console.log('Copied!')" class="text-xs text-slate-400 hover:text-white">Copy</button>
                     </div>
                     <pre id="content" class="p-6 font-mono text-sm text-slate-300 overflow-x-auto whitespace-pre-wrap"><%= file.content %></pre>
                 </div>
